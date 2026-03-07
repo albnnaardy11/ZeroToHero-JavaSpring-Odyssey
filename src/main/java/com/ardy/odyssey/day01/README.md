@@ -1,34 +1,36 @@
 # Day 01 — Multi-Country Tax Calculator
 
 **Package:** `com.ardy.odyssey.day01`  
-**Version:** `v1.2`
+**Version:** `v2.0`
 
-A clean, minimal CLI-based income tax calculator supporting multiple countries' progressive tax brackets.
+A professional-grade CLI-based tax calculator implementing advanced Java OOP patterns and data persistence.
 This module is Day 1 of the Zero-to-Hero Java Spring Odyssey — covering Java OOP fundamentals:
-abstract classes, interfaces, inheritance, and records. No frameworks. No magic. Just Java.
+abstract classes, interfaces, inheritance, records, and the **Factory Design Pattern**.
 
 ---
 
 ## Changelog
 
-### v1.2 — Multi-Country & Audit Logging
-- Added `IndonesiTaxService` — Indonesian PPh progressive tax brackets (IDR)
-- Interactive country selector: Singapore or Indonesia at runtime
-- `expense` field in `TaxRequest` is now live — net income = `income − expense`
-- Locale-aware currency formatting (`en_SG` / `id_ID`)
-- Audit log written to `audit_pajak.txt` on every calculation
+### v2.0 — Factory Pattern & CSV Persistence
+- Implemented `TaxServiceFactory` for decoupled object creation.
+- Changed audit logging from `.txt` to `.csv` for structured data processing.
+- Added interactive loop (`while running`) so the program stays open for multiple entries.
+- Added `InputMismatchException` handling for robust user input.
+- Renamed entry point to `Main.java` (PascalCase compliance).
 
-### v1.1 → v1.0 — Singapore Tax Calculator
-- Initial release with Singapore progressive tax logic
-- Abstract `TaxPayer`, `TaxCalculator` interface, and `TaxRequest` record
+### v1.2 — Multi-Country Support
+- Added `IndonesiTaxService` — Indonesian PPh brackets.
+- Added `expense` field support in `TaxRequest` for net income calculation.
+- Locale-aware currency formatting (`en_SG` / `id_ID`).
+
+### v1.0 — Initial Release
+- Singapore tax logic with abstract `TaxPayer` and `TaxCalculator` interface.
 
 ---
 
 ## What This Does
 
-Takes an annual income and optional expenses, applies the selected country's progressive tax rate,
-prints the result, and appends a timestamped audit entry to `audit_pajak.txt`.
-One responsibility per class. Done right.
+Takes annual income and expenses, calculates progressive tax based on the selected country, displays formatted results, and logs transaction data into `audit_pajak.csv`.
 
 ---
 
@@ -49,8 +51,6 @@ One responsibility per class. Done right.
 | ≤ 60,000,000                   | 5%    | net × 5%                                                 |
 | > 60,000,000                   | 15%   | Rp 3,000,000 + (net − 60,000,000) × 15%                 |
 
-> **Net income** = `income − expense`. Expenses reduce taxable base for both countries.
-
 ---
 
 ## Architecture
@@ -64,51 +64,22 @@ TaxPayer (abstract class)
     ├── taxId: String
     └── displayInfo(): void
 
-SingapureTaxService (concrete class)
-    ├── extends TaxPayer
-    ├── implements TaxCalculator
-    └── calculate(TaxRequest): double   ← Singapore progressive brackets
+TaxServiceFactory (NEW v2.0)
+    └── getService(int choice, String name): TaxCalculator
 
-IndonesiTaxService (concrete class)       ← NEW in v1.2
+SingapureTaxService & IndonesiTaxService (concrete classes)
     ├── extends TaxPayer
     ├── implements TaxCalculator
-    └── calculate(TaxRequest): double   ← Indonesian PPh brackets, net income basis
+    └── calculate(TaxRequest): double
 
 TaxRequest (record)
     ├── income: double
-    └── expense: double                  ← now actively used for net income calculation
+    └── expense: double
 
-main (entry point)
-    ├── country selector  → 1: Singapore | 2: Indonesia
-    ├── CLI loop: prompt → calculate → print
-    └── audit writer      → appends entry to audit_pajak.txt
-```
-
-The design is intentional:
-- `TaxCalculator` is an interface — plug in any country's tax logic with zero changes to `main`.
-- `TaxPayer` is abstract — every taxpayer has a name and ID, but the tax logic differs per country.
-- `SingapureTaxService` and `IndonesiTaxService` are isolated concrete implementations.
-- `TaxRequest` is a record — immutable, no boilerplate, `expense` now participates in calculation.
-- Audit logging is fire-and-forget, isolated in its own try-with-resources block.
-
----
-
-## Sample Run
-
-```
-=== Tax System ===
-Pilih Negara(1: Singapore, 2: Indonesia): 2
-Masukan Nama: Ardy
-Masukan Pendapatan Tahunan: 85000000
-Total Pengeluaran: 5000000
-
---- Hasil Perhitungan ---
-Nama : Ardy
-Tax ID: ID-VET
-Total Pajak: Rp4.500.000,00
-
-[SYSTEM]: Data telah berhasil di backup ke audit_pajak.txt
-[AUDIT]: Transaksi berhasil dicatat untuk user: Ardy
+Main (entry point)
+    ├── menu loop (Singapore | Indonesia | Exit)
+    ├── uses TaxServiceFactory for object creation
+    └── logs data to audit_pajak.csv
 ```
 
 ---
@@ -117,10 +88,33 @@ Total Pajak: Rp4.500.000,00
 
 | File                     | Role                                              |
 |--------------------------|---------------------------------------------------|
-| `TaxCalculator.java`     | Interface — contract for all tax services         |
-| `TaxPayer.java`          | Abstract class — shared taxpayer identity         |
-| `TaxRequest.java`        | Record — immutable input: income + expense        |
-| `SingapureTaxService.java` | Concrete — Singapore SGD tax logic              |
-| `IndonesiTaxService.java`  | Concrete — Indonesia IDR PPh logic (v1.2)       |
-| `main.java`              | Entry point — CLI, country selector, audit writer |
-| `audit_pajak.txt`        | Append-only audit log (auto-generated at runtime) |
+| `Main.java`              | Entry point — UI loop, Input validation, CSV writer|
+| `TaxServiceFactory.java` | **Factory Pattern** — encapsulates object creation|
+| `TaxCalculator.java`     | Interface — the contract for tax services         |
+| `TaxPayer.java`          | Abstract class — shared identity properties       |
+| `TaxRequest.java`        | Record — immutable input container                |
+| `SingapureTaxService.java` | Concrete logic for Singapore (SGD)              |
+| `IndonesiTaxService.java`  | Concrete logic for Indonesia (IDR)              |
+| `audit_pajak.csv`        | Persistent audit log in CSV format                |
+
+---
+
+## Sample Run
+
+```
+=== Tax System v2.0 ===
+1. Singapore
+2. Indonesia
+0. Exit
+Pilih Menu: 2
+
+Masukan Nama: Ardy
+Masukan Pendapatan Tahunan: 70000000
+Total Pengeluaran: 10000000
+
+--- Hasil Perhitungan ---
+Nama        : Ardy
+Tax PayerArdy[ID-VET]
+Total Pajak : Rp3.000.000,00
+[SYSTEM]: Data tersimpan di audit_pajak.csv
+```

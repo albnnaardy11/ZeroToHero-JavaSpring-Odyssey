@@ -1,13 +1,9 @@
 package com.ardy.odyssey.day01;
 
-import com.ardy.odyssey.day01.TaxCalculator;
-import com.ardy.odyssey.day01.TaxRequest;
-import com.ardy.odyssey.day01.TaxPayer;
 
+public class IndonesiaTaxService extends TaxPayer implements TaxCalculator{
 
-public class IndonesiTaxService extends TaxPayer implements TaxCalculator{
-
-    public IndonesiTaxService(String name, String taxId){
+    public IndonesiaTaxService(String name, String taxId){
         super(name, taxId);
     }
 

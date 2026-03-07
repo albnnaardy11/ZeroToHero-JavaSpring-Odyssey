@@ -1,74 +1,75 @@
 package com.ardy.odyssey.day01;
 
-import com.ardy.odyssey.day01.SingapureTaxService;
-import com.ardy.odyssey.day01.TaxCalculator;
-import com.ardy.odyssey.day01.IndonesiTaxService;
-import com.ardy.odyssey.day01.TaxRequest;
-
-import java.util.Scanner;
-import java.util.Locale;
+import java.util.*;
 import java.text.NumberFormat;
+import java.io.FileWriter;
+import java.io.IOException;
 
-
-public class main {
-    public static void  main(String[] args) {
-
-        //1.Inisisasi Service
+public class Main {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        boolean running = true;
 
-        try {
-            System.out.println("=== Tax System ===");
-            System.out.println("Pilih Negara(1: Singapore, 2: Indonesia):");
-            int pilihan = scanner.nextInt();
-            scanner.nextLine();
+        while (running) {
+            try {
+                System.out.println("\n=== Tax System v2.0 ===");
+                System.out.println("1. Singapore\n2. Indonesia\n0. Exit");
+                System.out.print("Pilih Menu: ");
 
-            System.out.println("Masukan Nama: ");
-            String name = scanner.nextLine();
+                int pilihan = scanner.nextInt();
+                if (pilihan == 0) {
+                    running = false;
+                    continue;
+                }
+                scanner.nextLine(); // Clear buffer
 
-            System.out.println("Masukan Pendapatan Tahunan: ");
-            double income = scanner.nextDouble();
+                System.out.print("Masukan Nama: ");
+                String name = scanner.nextLine();
 
-            System.out.println("Total Pengeluaran: ");
-            double exp = scanner.nextDouble();
+                System.out.print("Masukan Pendapatan Tahunan: ");
+                double income = scanner.nextDouble();
 
-            //3.Membungkus data Tax
-            TaxRequest request = new TaxRequest(income, exp);
+                System.out.print("Total Pengeluaran: ");
+                double exp = scanner.nextDouble();
 
-            TaxCalculator service;
-            NumberFormat currencyFormat;
+                Country selectedCountry = Country.formInt(pilihan);
 
-            if (pilihan == 1){
-                service = new SingapureTaxService(name, "SG-VET");
-                currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "SG"));
-            }else {
-                service = new IndonesiTaxService(name, "ID-VET");
-                currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+                // Mengambil Service dari Factory
+                TaxCalculator service = TaxServiceFactory.getService(selectedCountry, name);
+
+                // Mengatur Format Mata Uang
+                Locale locale = (pilihan == 1) ? new Locale("en", "SG") : new Locale("id", "ID");
+                NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
+
+                // Menghitung Pajak
+                double taxResult = service.calculate(new TaxRequest(income, exp));
+
+                System.out.println("\n--- Hasil Perhitungan ---");
+                System.out.println("Nama        : " + name);
+                ((TaxPayer) service).displayInfo(); // Casting agar displayInfo bisa dipanggil
+                System.out.println("Total Pajak : " + formatter.format(taxResult));
+
+                // Simpan ke CSV
+                saveToCSV(name, income, taxResult, formatter.format(taxResult));
+
+            } catch (InputMismatchException e) {
+                System.err.println("Error: Mohon masukkan angka yang valid!");
+                scanner.nextLine(); // Clear invalid input
+            } catch (Exception e) {
+                System.err.println("Error: " + e.getMessage());
             }
+        }
+        System.out.println("Sistem Ditutup. Sampai jumpa!");
+        scanner.close();
+    }
 
-            double taxResult = service.calculate(request);
-
-            System.out.println("\n--- Hasil Perhitungan ---");
-            System.out.println("Nama : " + name);
-            ((TaxPayer)service).displayInfo();
-
-            System.out.println("Total Pajak: " + currencyFormat.format(taxResult));
-
-            try(java.io.FileWriter writer = new java.io.FileWriter("audit_pajak.txt", true)) {
-                String logEntry = String.format("[%s] User: %s | Income: %.2f| Tax: %s\n",
-                        new java.util.Date(), name, income, currencyFormat.format(taxResult));
-
-                writer.write(logEntry);
-                System.out.println("\n[SYSTEM]: Data telah berhasil di backup ke audit_pajak.txt");
-            }catch (java.io.IOException e){
-                System.err.println("[SYSTEM ERROR]: Gagal menulis log ke file.");
-            }
-
-            System.out.println("\n[AUDIT]: Transaksi berhasil dicatat untuk user: " + name);
-
-        } catch (Exception e){
-            System.err.println("Error: Input harus berupa angka yang valid");
-        } finally {
-            scanner.close();
+    private static void saveToCSV(String name, double inc, double tax, String formattedTax) {
+        try (FileWriter fw = new FileWriter("audit_pajak.csv", true)) {
+            String log = String.format("%s,%s,%.2f,%s\n", new Date(), name, inc, formattedTax);
+            fw.write(log);
+            System.out.println("[SYSTEM]: Data tersimpan di audit_pajak.csv");
+        } catch (IOException e) {
+            System.err.println("Gagal mencatat log.");
         }
     }
 }

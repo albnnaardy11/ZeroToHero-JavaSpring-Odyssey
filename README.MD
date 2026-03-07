@@ -7,28 +7,29 @@ No shortcuts. No tutorials copy-pasted blindly. Every line is intentional.
 
 ## Progress
 
-| Day  | Module                          | Version | Status      | Topics Covered                                               |
-|------|---------------------------------|---------|-------------|--------------------------------------------------------------|
-| 01   | Multi-Country Tax Calculator    | v1.2    | ✅ Done      | OOP, abstract classes, interfaces, records, CLI, file I/O   |
+| Day  | Module                          | Version | Status      | Topics Covered                                                      |
+|------|---------------------------------|---------|-------------|---------------------------------------------------------------------|
+| 01   | Multi-Country Tax Calculator    | v2.0    |   Done      | OOP, Factory Pattern, Records, CSV Persistence, Exception Handling |
 
 ---
 
 ## Day 01 — Highlights
 
-**`com.ardy.odyssey.day01`** — Singapore & Indonesia progressive tax calculator.
+**`com.ardy.odyssey.day01`** — Professional CLI Tax Calculator.
 
-- `v1.0` → Singapore SGD tax logic, single-country CLI
-- `v1.2` → Added Indonesia IDR PPh, expense deduction, locale-aware formatting, audit log
+- `v1.0` → Basic Interface & Abstract Class
+- `v1.2` → Multi-country (SG/ID) support
+- **`v2.0`** → Factory Pattern, Structed CSV Audit Logging, and Infinite UI Loop
 
-See full details in [`day01/README.md`](src/main/java/com/ardy/odyssey/day01/README.md).
+See full technical details in [`day01/README.md`](src/main/java/com/ardy/odyssey/day01/README.md).
 
 ---
 
 ## Stack
 
-- **Language:** Java (no framework — yet)
-- **Build:** IntelliJ IDEA / plain `javac`
-- **Upcoming:** Maven → Spring Boot → REST API → JPA → Security
+- **Language:** Java (JDK 17+)
+- **Design Patterns:** Factory Pattern
+- **Persistence:** File System (CSV)
+- **Upcoming:** Day 02 — Maven Structure & Unit Testing (JUnit 5)
 
 ---
-
