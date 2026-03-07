@@ -2,15 +2,17 @@ package com.ardy.odyssey.day01;
 
 import com.ardy.odyssey.day01.TaxCalculator;
 import com.ardy.odyssey.day01.TaxPayer;
+import com.ardy.odyssey.day01.TaxRequest;
 
-public class SingapureTaxService extends  TaxPayer implements TaxCalculator{
+public class SingapureTaxService extends TaxPayer implements TaxCalculator{
 
     public SingapureTaxService(String name, String taxId) {
         super(name, taxId);
     }
 
     @Override
-    public double calculate(double income) {
+    public double calculate(TaxRequest request) {
+        double income = request.income();
         if (income <=20000){
             return 0;
         } else if (income <= 30000) {
