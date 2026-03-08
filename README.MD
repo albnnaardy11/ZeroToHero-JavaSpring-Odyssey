@@ -10,6 +10,7 @@ No shortcuts. No tutorials copy-pasted blindly. Every line is intentional.
 | Day  | Module                          | Version | Status      | Topics Covered                                                      |
 |------|---------------------------------|---------|-------------|---------------------------------------------------------------------|
 | 01   | Multi-Country Tax Calculator    | v2.0    |   Done      | OOP, Factory Pattern, Records, CSV Persistence, Exception Handling |
+| 02   | State Manager & Unittesting     | v2.1    |   Done      | Enums, Collections (List, HashMap), Maven, JUnit 5 Testing         |
 
 ---
 
@@ -25,11 +26,23 @@ See full technical details in [`day01/README.md`](src/main/java/com/ardy/odyssey
 
 ---
 
+## Day 02 — Highlights
+
+**`com.ardy.odyssey.day02`** — Maven Structure & Unit Testing.
+
+- `v1.0` → Maven & JUnit 5 Integration
+- **`v2.1`** → Enum safe-typing, State Management with `List` and `HashMap`
+
+See full technical details in [`day02/README.md`](src/main/java/com/ardy/odyssey/day02/README.md).
+
+---
+
 ## Stack
 
-- **Language:** Java (JDK 17+)
+- **Language:** Java (JDK 22+)
 - **Design Patterns:** Factory Pattern
-- **Persistence:** File System (CSV)
-- **Upcoming:** Day 02 — Maven Structure & Unit Testing (JUnit 5)
+- **Collections:** List, HashMap
+- **Build System & Testing:** Maven, JUnit 5
+- **Upcoming:** Day 03 — Exception Handling & Enhanced File I/O Persistence
 
 ---
