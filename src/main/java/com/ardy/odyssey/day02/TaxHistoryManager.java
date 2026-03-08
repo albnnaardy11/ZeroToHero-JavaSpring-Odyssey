@@ -1,5 +1,6 @@
 package com.ardy.odyssey.day02;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,8 @@ public class TaxHistoryManager {
     //HashMap: Memastika Nama & Total Pajak pernah dihitung
     private final Map<String, Double> summaryMap = new HashMap<>();
 
+    private final DecimalFormat df = new DecimalFormat("#,###.##");
+
     public void addRecord(String name, double amount) {
         history.add(amount);
         //Mengamukulasi total pajak per user
@@ -22,7 +25,10 @@ public class TaxHistoryManager {
     public void printLaporan(){
         System.out.println("\n-- LAPORAN AKHIR SESI ---");
         System.out.println("Total Transaksi: " + history.size());
-        summaryMap.forEach((name, total) ->
-                System.out.println("User: " + name + " | Total Pajak: " + total));
+        summaryMap.forEach((name, total) -> {
+            String currency = (total < 100000) ? "s$" : "Rp" ;
+            System.out.println("User: " + String.format("%-10s", name) + " | Total Pajak: " + currency + df.format(total));
+
+        });
     }
 }
