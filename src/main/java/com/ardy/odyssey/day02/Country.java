@@ -14,7 +14,7 @@ public enum Country {
         return value;
     }
 
-    public static Country formInt(int choices){
+    public static Country fromInt(int choices){
         for (Country c : Country.values()){
             if (c.value == choices) return c;
         }

@@ -11,18 +11,18 @@ public class TaxHistoryManager {
     private final List<Double> history = new ArrayList<>();
 
     //HashMap: Memastika Nama & Total Pajak pernah dihitung
-    private final Map<String, Double> summeryMap = new HashMap<>();
+    private final Map<String, Double> summaryMap = new HashMap<>();
 
     public void addRecord(String name, double amount) {
         history.add(amount);
         //Mengamukulasi total pajak per user
-        summeryMap.put(name, summeryMap.getOrDefault(name, 0.0) + amount);
+        summaryMap.put(name, summaryMap.getOrDefault(name, 0.0) + amount);
     }
 
     public void printLaporan(){
         System.out.println("\n-- LAPORAN AKHIR SESI ---");
         System.out.println("Total Transaksi: " + history.size());
-        summeryMap.forEach((name, total) ->
+        summaryMap.forEach((name, total) ->
                 System.out.println("User: " + name + " | Total Pajak: " + total));
     }
 }

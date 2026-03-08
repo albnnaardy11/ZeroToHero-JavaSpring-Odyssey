@@ -1,9 +1,6 @@
 package com.ardy.odyssey.day02;
 
 import com.ardy.odyssey.day01.*;
-import com.ardy.odyssey.day01.SingapureTaxService;
-import com.ardy.odyssey.day01.IndonesiaTaxService;
-import com.ardy.odyssey.day01.TaxCalculator;
 
 
 public class TaxServiceFactory {

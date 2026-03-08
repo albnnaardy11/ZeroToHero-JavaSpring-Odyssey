@@ -17,15 +17,16 @@ public class Main {
                 System.out.println("Pilih: ");
 
                 int input = sc.nextInt();
-                if (input == 0) break;
+                if (input == 3) break;
                 sc.nextLine();
 
-                Country country = Country.formInt(input);
+                Country country = Country.fromInt(input);
 
                 System.out.println("Masukan Name: ");
                 String name = sc.nextLine();
                 System.out.println("Pendapatan: ");
                 double inc = sc.nextDouble();
+                sc.nextLine();
 
                 TaxCalculator service = TaxServiceFactory.getService(country, name);
                 double tax = service.calculate(new TaxRequest(inc, 0));
@@ -38,6 +39,6 @@ public class Main {
                 sc.nextLine();
             }
         }
-        manager.printLaporan();;
+        manager.printLaporan();
     }
 }
