@@ -7,10 +7,11 @@ No shortcuts. No tutorials copy-pasted blindly. Every line is intentional.
 
 ## Progress
 
-| Day  | Module                          | Version | Status      | Topics Covered                                                      |
-|------|---------------------------------|---------|-------------|---------------------------------------------------------------------|
-| 01   | Multi-Country Tax Calculator    | v2.0    |   Done      | OOP, Factory Pattern, Records, CSV Persistence, Exception Handling |
-| 02   | State Manager & Unittesting     | v2.1    |   Done      | Enums, Collections (List, HashMap), Maven, JUnit 5 Testing         |
+| Day  | Module                          | Version | Status      | Topics Covered                                                                        |
+|------|---------------------------------|---------|-------------|--------------------------------------------------------------------------------------|
+| 01   | Multi-Country Tax Calculator    | v2.0    |   Done      | OOP, Factory Pattern, Records, CSV Persistence, Exception Handling                   |
+| 02   | State Manager & Unittesting     | v2.1    |   Done      | Enums, Collections (List, HashMap), Maven, JUnit 5 Testing                           |
+| 03   | Equipment Rental System         | v1.0    |   Done      | Inheritance, Encapsulation, Queue (LinkedList), HashSet, Iterator                    |
 
 ---
 
@@ -37,12 +38,22 @@ See full technical details in [`day02/README.md`](src/main/java/com/ardy/odyssey
 
 ---
 
+## Day 03 — Highlights
+
+**`com.ardy.odyssey.day03`** — Camera Equipment Rental System.
+
+- **`v1.0`** → Inheritance (`Kamera extends ItemSewa`), `Queue` customer queue, `HashSet` inventory, explicit `Iterator` for safe removal
+
+See full technical details in [`day03/README.md`](src/main/java/com/ardy/odyssey/day03/README.md).
+
+---
+
 ## Stack
 
 - **Language:** Java (JDK 22+)
 - **Design Patterns:** Factory Pattern
-- **Collections:** List, HashMap
+- **Collections:** List, HashMap, Queue (LinkedList), HashSet, Iterator
 - **Build System & Testing:** Maven, JUnit 5
-- **Upcoming:** Day 03 — Exception Handling & Enhanced File I/O Persistence
+- **Upcoming:** Day 04 — File I/O & BufferedReader / BufferedWriter
 
 ---
