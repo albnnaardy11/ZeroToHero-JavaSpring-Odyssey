@@ -1,20 +1,33 @@
 package com.ardy.odyssey.day03.model;
 
-public class ItemSewa {
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Kamera.class, name = "kamera")
+})
+
+public abstract class ItemSewa {
     private String id;
     private String merk;
-    private double hargaPerHari;
+    private double hargPerHari;
 
-    public ItemSewa(String id, String merk, double hargaPerHari){
+    public ItemSewa() {}
+
+    public ItemSewa(String id, String merk, double hargPerHari){
         this.id = id;
         this.merk = merk;
-        this.hargaPerHari = hargaPerHari;
+        this.hargPerHari = hargPerHari;
     }
 
     public String getId() { return id; }
     public String getMerk() { return merk; }
-    public double getHargaPerHari() { return hargaPerHari; }
-    public void tampilkanDetail() {
-        System.out.println("[" + id + "] Merk: " + merk );
-    }
+    public Double getHargaPerHari() { return hargPerHari; }
+
+    public abstract void tampilkanDetail();
 }
